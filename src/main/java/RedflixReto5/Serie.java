@@ -11,4 +11,28 @@ package RedflixReto5;
  */
 public class Serie {
     
+    private String serTitulo;
+    private int serTemporadas;
+    private int serCapitulos;
+
+    public Serie(String serTitulo, int serTemporadas, int serCapitulos) {
+        this.serTitulo = serTitulo;
+        this.serTemporadas = serTemporadas;
+        this.serCapitulos = serCapitulos;
+    }
+
+    public String getSerTitulo() {
+        return this.serTitulo;
+    }
+
+    public int getSerCapitulos() {
+        return this.serTemporadas;
+    }
+
+    public int getSerTemporadas() {
+        return this.serCapitulos;
+    }
+    
+    
+    
 }

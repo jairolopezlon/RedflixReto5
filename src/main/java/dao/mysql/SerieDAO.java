@@ -5,12 +5,12 @@
  */
 package dao.mysql;
 
+import RedflixReto5.Serie;
+
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author JLL
@@ -20,8 +20,7 @@ public class SerieDAO implements DAO<Serie, String>{
     final String GETALL = "select * from series";
     final String GETONE = "select * from series where ser_titulo = ?";
     final String INSERT = "insert into series values (?, ?, ?)";
-    final String UPDATE_CAP = "update series set ser_capitulos = ? where ser_titulo = ?";
-    final String UPDATE_TEMP = "update series set ser_temporadas = ? where ser_titulo = ?";
+    final String UPDATE = "update series set ser_capitulos = ? where ser_titulo = ?";
     final String DELETE = "delete from series where ser_titulo = ?";
     
     private Connection conn = null;
@@ -38,7 +37,7 @@ public class SerieDAO implements DAO<Serie, String>{
                 ResultSet rs = st.executeQuery(GETALL)){
             
             while(rs.next()){
-            series.add(TurnIntoSeries(rs));
+            series.add(TurnIntoSerie(rs));
             
             }
         } catch (SQLException ex) {
@@ -47,8 +46,8 @@ public class SerieDAO implements DAO<Serie, String>{
         return series;
     }
     
-     @Override
-    public List<Serie> getOne(String serTitulo){
+    @Override
+    public Serie getOne(String serTitulo){
         Serie serie = null;
         
         try (Statement st = conn.createStatement();
@@ -79,8 +78,8 @@ public class SerieDAO implements DAO<Serie, String>{
     }
     
     @Override
-    public void updateCapitulos(Serie serie){
-        try(PreparedStatement ps = conn.prepareStatement(UPDATE_CAP)){
+    public void update(Serie serie){
+        try(PreparedStatement ps = conn.prepareStatement(UPDATE)){
             
             ps.setString(1, serie.getSerTitulo());
             ps.setInt(2, serie.getSerCapitulos());
@@ -92,22 +91,22 @@ public class SerieDAO implements DAO<Serie, String>{
             System.err.print(ex);
         }
     }
-    
-    @Override
-    public void updateTemporadas(Serie serie){
-        try(PreparedStatement ps = conn.prepareStatement(UPDATE_TEMP)){
-            
-            ps.setString(1, serie.getSerTitulo());
-            ps.setInt(2, serie.getSerTemporadas());
-            
-            if(ps.executeUpdate() == 0){
-                throw new SQLException("posiblemente no se actualizo el registro");
-            }
-        }catch(SQLException ex){
-            System.err.print(ex);
-        }
-    }
-    
+//    
+//    @Override
+//    public void updateTemporadas(Serie serie){
+//        try(PreparedStatement ps = conn.prepareStatement(UPDATE_TEMP)){
+//            
+//            ps.setString(1, serie.getSerTitulo());
+//            ps.setInt(2, serie.getSerTemporadas());
+//            
+//            if(ps.executeUpdate() == 0){
+//                throw new SQLException("posiblemente no se actualizo el registro");
+//            }
+//        }catch(SQLException ex){
+//            System.err.print(ex);
+//        }
+//    }
+//    
     @Override
     public void insert(Serie serie){
         
@@ -126,7 +125,7 @@ public class SerieDAO implements DAO<Serie, String>{
         
     }
     
-    public Serie TurnIntoSerie (ResultSet rs) throw SQLException {
+    public Serie TurnIntoSerie (ResultSet rs) throws SQLException {
             
         String ser_titulo = rs.getString("ser_titulo");
         int ser_temporadas = rs.getInt("ser_temporadas");
