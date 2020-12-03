@@ -11,9 +11,9 @@ package RedflixReto5;
  */
 public class Serie {
     
-    private String serTitulo;
-    private int serTemporadas;
-    private int serCapitulos;
+    private final String serTitulo;
+    private final int serTemporadas;
+    private final int serCapitulos;
 
     public Serie(String serTitulo, int serTemporadas, int serCapitulos) {
         this.serTitulo = serTitulo;
@@ -36,3 +36,4 @@ public class Serie {
     
     
 }
+  

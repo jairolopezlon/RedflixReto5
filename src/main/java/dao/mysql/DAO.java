@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface DAO <T, K>{
     
-    public List<T> getall();
+    public List<T> getAll();
     
     public T getOne(K id);
     
